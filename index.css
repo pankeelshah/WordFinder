@@ -1,16 +1,6 @@
-#link{
-    text-decoration: none;
-    display: block;
-}
-
-#link:hover{
-    color: #67c27c;
-}
-
 #wrapper {
     display: grid;
     grid-template-columns: 33% 33% 34%;
-
 }
 
 #wrapper #cardDiv div{
@@ -27,20 +17,23 @@
     min-height: 100%;
     background-color: lightgray;
     margin-bottom: -50px;
-  }
+}
   
-  .footer,
-  .push {
+.footer,
+.push {
     height: 50px;
-  }
+}
   
-  .footer{
+.footer{
     background-color: #333;
-    color: #a3a3a3;
     text-align: center;
-      
-  }
-  #inputSection{
+}
+
+.footer a{
+    color: #a3a3a3;
+}
+
+#inputSection{
     text-align: center;
     padding-top: 2.5%;
 }
@@ -49,6 +42,4 @@
     display: flex;
     /* width: 50%; */
     justify-content: center;
-
-
 }
