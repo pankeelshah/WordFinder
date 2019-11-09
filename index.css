@@ -1,0 +1,54 @@
+#link{
+    text-decoration: none;
+    display: block;
+}
+
+#link:hover{
+    color: #67c27c;
+}
+
+#wrapper {
+    display: grid;
+    grid-template-columns: 33% 33% 34%;
+
+}
+
+#wrapper #cardDiv div{
+    margin-right: auto;
+    margin-left: auto;
+
+}
+
+#wrapper #cardDiv{
+    padding: 10px;
+}
+
+.wrapper {
+    min-height: 100%;
+    background-color: lightgray;
+    margin-bottom: -50px;
+  }
+  
+  .footer,
+  .push {
+    height: 50px;
+  }
+  
+  .footer{
+    background-color: #333;
+    color: #a3a3a3;
+    text-align: center;
+      
+  }
+  #inputSection{
+    text-align: center;
+    padding-top: 2.5%;
+}
+
+#searchbar{
+    display: flex;
+    /* width: 50%; */
+    justify-content: center;
+
+
+}
