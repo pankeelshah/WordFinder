@@ -1,5 +1,5 @@
-async function getNews(){
-    var url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/test?key=84247a35-6917-4697-b294-d6cca6cd9052';
+async function getDefinition(word){
+    var url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=84247a35-6917-4697-b294-d6cca6cd9052';
 
     let promise = fetch(encodeURI(url));
 
