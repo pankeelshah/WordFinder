@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, render_template
+from flask import Flask, request, Response, render_template, redirect, flash, url_for
 import requests
 import itertools
 from flask_wtf.csrf import CSRFProtect
@@ -7,13 +7,21 @@ from wtforms import StringField, SubmitField
 
 class WordForm(FlaskForm):
     avail_letters = StringField("Letters")
-    submit = SubmitField("Go")
+    submit = SubmitField("Search")
 
 
 csrf = CSRFProtect()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "row the boat"
 csrf.init_app(app)
+
+# Merriam-Webster dictionary key
+# 84247a35-6917-4697-b294-d6cca6cd9052
+# https://www.dictionaryapi.com/api/v3/references/collegiate/json/test?key=84247a35-6917-4697-b294-d6cca6cd9052
+
+@app.route('/')
+def default():
+    return redirect(url_for('index'))
 
 @app.route('/index')
 def index():
@@ -44,14 +52,10 @@ def letters_2_words():
         wordlist=sorted(word_set),
         name="CS4131", a = "test")
 
-
-
-
 @app.route('/proxy')
 def proxy():
     result = requests.get(request.args['url'])
     resp = Response(result.text)
     resp.headers['Content-Type'] = 'application/json'
     return resp
-
 

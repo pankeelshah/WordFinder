@@ -1,12 +1,78 @@
 main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    background-color: lightslategray;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    background-color: rgb(98, 98, 98);
+    margin-bottom: -50px;
+}
+
+nav{
+    background: #333;
+    text-align: center;
+}
+
+#title{
+    font-size: 60pt;
+    font-weight: bold;
+    color: #89f5a2;
+}
+
+#inputSection{
+    text-align: center;
+    padding-top: 2.5%;
+}
+
+#input{
+    display: flex;
+}
+
+.footer,
+.push {
+    height: 50px;
+}
+
+footer{
+    background-color: #333;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+a { 
+    text-decoration: none; 
+    color:blue;
+} 
+
+a:visited { 
+    text-decoration: none;
+}
+
+a:focus { 
+    text-decoration: none;
+}
+
+a:hover, a:active { 
+    text-decoration: none;
+    color:black;
+    cursor: pointer;
+}
+
+form { 
+    margin: 0 auto; 
+    width:250px;
 }
 
 .wordbox {
     text-align: center;
     border: solid white;
     margin: 3px;
-
 }
+

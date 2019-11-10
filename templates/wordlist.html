@@ -3,7 +3,9 @@
 {% block content %}
 <main>
     {% for word in wordlist: %}
-        <div class="wordbox">{{ word }}</div>
+        <div class="wordbox">
+            <a onclick="getDefinition()" target="_blank">{{ word }}</a>
+        </div>
     {% endfor %}
 </main>
 {% endblock %}
