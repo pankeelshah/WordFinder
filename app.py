@@ -15,10 +15,6 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "row the boat"
 csrf.init_app(app)
 
-# Merriam-Webster dictionary key
-# 84247a35-6917-4697-b294-d6cca6cd9052
-# https://www.dictionaryapi.com/api/v3/references/collegiate/json/test?key=84247a35-6917-4697-b294-d6cca6cd9052
-
 @app.route('/')
 def default():
     return redirect(url_for('index'))
@@ -27,7 +23,6 @@ def default():
 def index():
     form = WordForm()
     return render_template("index.html", form=form)
-
 
 @app.route('/words', methods=['POST','GET'])
 def letters_2_words():
