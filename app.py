@@ -34,8 +34,8 @@ def letters_2_words():
     if form.validate_on_submit():
         letters = form.avail_letters.data
         pattern = form.pattern.data
-        min_length = int(form.min_length.data)
-        max_length = int(form.max_length.data) + 1
+        min_length = form.min_length.data
+        max_length = form.max_length.data
     else:
         return render_template("index.html", form=form)
 
@@ -47,6 +47,17 @@ def letters_2_words():
         strings = re.findall(user_regex_string, f.read())
     else:
         strings = f.readlines()
+    
+    print(min_length)
+    if(min_length == ""):
+        min_length = 3
+    else:
+        min_length = int(min_length)
+    
+    if(max_length == ""):
+        max_length = 10
+    else:
+        max_length = int(max_length)
 
     for x in strings:
         word_length = len(x)
