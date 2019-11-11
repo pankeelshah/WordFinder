@@ -3,14 +3,17 @@
 {% block content %}
 <main>
     {% for word in wordlist: %}
+    <a onclick="getDefinition('{{ key }}', '{{word}}')" target="_blank">
         <div class="wordbox">
-            <a onclick="getDefinition('{{ key }}', '{{word}}')" target="_blank">{{ word }}</a>
+            {{ word }}
         </div>
+    </a>
     {% endfor %}
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span onclick="closeModal()" class="close">&times;</span>
+            <h1>Definition</h1>
             <p id="modalText"></p>
         </div>
     </div>

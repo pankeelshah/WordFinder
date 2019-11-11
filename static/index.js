@@ -8,9 +8,8 @@ async function getDefinition(key, word){
 
     jr.then( 
         function(data){
-            console.log(data);
             var text = formatModalText(data);
-            openModal(text); 
+            openModal(text);
         }
     ).catch(
         function(data){
@@ -22,20 +21,25 @@ async function getDefinition(key, word){
 function formatModalText(data){
     text = "";
     var dataLength = data.length;
-            
     for(var i = 0; i < dataLength; i++){
         var ob = data[i];
         //usage of word
         var fl = data[i].fl;
         //list of definitions of that type
-        var definitions = data[i].shortdef;
-        
-        text += fl + "<br>";
-        var numberOfDefinitions = definitions.length;
-        for(var j = 0; j < numberOfDefinitions; j++){
-            text += (j+1).toString() + ". " + definitions[j] + "<br>";
+        try{
+            var definitions = data[i].shortdef;
+            var numberOfDefinitions = definitions.length;
+            text += fl + "<br>";
+            
+            for(var j = 0; j < numberOfDefinitions; j++){
+                text += (j+1).toString() + ". " + definitions[j] + "<br>";
+            }
+            text += "<br>";
         }
-        text += "<br>";
+        catch(e){
+            text += "No definition exists for this word.";
+            break;
+        }
     }
     return text;
 }
