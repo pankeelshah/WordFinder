@@ -4,6 +4,7 @@ import itertools
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
+import wtforms
 import re
 
 class WordForm(FlaskForm):
