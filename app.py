@@ -48,7 +48,6 @@ def letters_2_words():
     else:
         strings = f.readlines()
     
-    print(min_length)
     if(min_length == ""):
         min_length = 3
     else:
