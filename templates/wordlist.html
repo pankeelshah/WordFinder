@@ -4,8 +4,16 @@
 <main>
     {% for word in wordlist: %}
         <div class="wordbox">
-            <a onclick="getDefinition()" target="_blank">{{ word }}</a>
+            <a onclick="getDefinition('{{ key }}', '{{word}}')" target="_blank">{{ word }}</a>
         </div>
     {% endfor %}
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span onclick="closeModal()" class="close">&times;</span>
+            <p>Some text in the Modal..</p>
+        </div>
+    </div>
+              
 </main>
 {% endblock %}

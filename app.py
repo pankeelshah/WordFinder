@@ -50,7 +50,7 @@ def letters_2_words():
 
     return render_template('wordlist.html',
         wordlist=sorted(word_set),
-        name="CS4131", a = "test")
+        name="CS4131", key = "84247a35-6917-4697-b294-d6cca6cd9052")
 
 @app.route('/proxy')
 def proxy():
