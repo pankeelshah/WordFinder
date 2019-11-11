@@ -4,12 +4,15 @@ import itertools
 from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
+import re
 
 class WordForm(FlaskForm):
     avail_letters = StringField("Letters")
+    pattern = StringField("Pattern")
     submit = SubmitField("Search")
-
-
+    min_length = StringField("Min")
+    max_length = StringField("Max")
+    
 csrf = CSRFProtect()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "row the boat"
@@ -30,12 +33,27 @@ def letters_2_words():
     form = WordForm()
     if form.validate_on_submit():
         letters = form.avail_letters.data
+        pattern = form.pattern.data
+        min_length = int(form.min_length.data)
+        max_length = int(form.max_length.data) + 1
     else:
         return render_template("index.html", form=form)
 
-    with open('sowpods.txt') as f:
-        good_words = set(x.strip().lower() for x in f.readlines())
+    good_words = set()
+    f = open('sowpods.txt')
 
+    if(pattern != ""):
+        user_regex_string = re.compile(pattern)
+        strings = re.findall(user_regex_string, f.read())
+    else:
+        strings = f.readlines()
+
+    for x in strings:
+        word_length = len(x)
+        if(min_length <= word_length and word_length <= max_length):
+            good_words.add(x.strip().lower())
+
+    f.close()
     word_set = set()
     for l in range(3,len(letters)+1):
         for word in itertools.permutations(letters,l):
@@ -43,8 +61,11 @@ def letters_2_words():
             if w in good_words:
                 word_set.add(w)
 
+    word_set = sorted(word_set, reverse=False)
+    word_set = sorted(word_set, reverse=False, key=len)
+
     return render_template('wordlist.html',
-        wordlist=sorted(word_set),
+        wordlist=word_set,
         name="CS4131", key = "84247a35-6917-4697-b294-d6cca6cd9052")
 
 @app.route('/proxy')

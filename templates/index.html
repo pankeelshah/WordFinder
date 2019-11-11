@@ -4,10 +4,24 @@
     <form action="/words" method="post">
         <div id="input">
             {{ form.hidden_tag() }}
+
             {{ form.avail_letters.label }}
             {{ form.avail_letters }}
+
+            {{ form.pattern.label }}
+            {{ form.pattern}}
+
+            {{ form.min_length.label }}
+            {{ form.min_length}}
+            
+            <br>
+
+            {{ form.max_length.label }}
+            {{ form.max_length}}
+
             {{ form.submit() }}
         </div>
+
     </form>
 
 {% endblock %}
