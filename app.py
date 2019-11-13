@@ -77,26 +77,12 @@ def letters_2_words():
 
     return render_template('wordlist.html',
         wordlist=word_set,
-        name="CS4131", key = "84247a35-6917-4697-b294-d6cca6cd9052")
+        name="CS4131")
 
-@app.route('/proxy')
-def proxy():
-    result = requests.get(request.args['url'])
+@app.route('/proxy/<word>')
+def proxy(word):
+    key = '84247a35-6917-4697-b294-d6cca6cd9052'
+    result = requests.get(f'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=' + key)
     resp = Response(result.text)
     resp.headers['Content-Type'] = 'application/json'
     return resp
-
-# import re
-
-# def findAllWords(fname):
-#     fp = open(fname)
-#     strings = re.findall(r'',fp.read())
-#     print(strings)
-
-# #findAllWords("test.txt")
-
-# n = ['yyyyy', 'aaaaa', 'yyy', 'aaa']
-# n.sort() # sorts normally by alphabetical order
-# print(n)
-# n.sort(key=len, reverse=False) # sorts by descending length
-# print(n)

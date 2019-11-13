@@ -1,5 +1,5 @@
-async function getDefinition(key, word){
-    var url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=' + key;
+async function getDefinition(word){
+    var url = '/proxy/' + word;
     let promise = fetch(encodeURI(url));
 
     let jr = promise.then(function(resp){
