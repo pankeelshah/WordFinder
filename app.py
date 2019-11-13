@@ -13,10 +13,10 @@ class WordForm(FlaskForm):
     submit = SubmitField("Search")
     min_length = StringField("Min")
     max_length = StringField("Max")
-    
+
 csrf = CSRFProtect()
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "row the boat"
+app.config["SECRET_KEY"] = '84247a35-6917-4697-b294-d6cca6cd9052'  
 csrf.init_app(app)
 
 @app.route('/')
@@ -81,8 +81,7 @@ def letters_2_words():
 
 @app.route('/proxy/<word>')
 def proxy(word):
-    key = '84247a35-6917-4697-b294-d6cca6cd9052'
-    result = requests.get(f'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=' + key)
+    result = requests.get(f'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=' + app.config["SECRET_KEY"])
     resp = Response(result.text)
     resp.headers['Content-Type'] = 'application/json'
     return resp
