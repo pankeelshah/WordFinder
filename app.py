@@ -57,10 +57,14 @@ def letters_2_words():
 
     good_words = set()
     f = open('sowpods.txt')
+    strings = []
 
     if(pattern != ""):
-        user_regex_string = re.compile(pattern)
-        strings = re.findall(user_regex_string, f.read())
+        new_pattern = "^" + pattern + "$"
+        for line in f.readlines():
+            word = line[:-2]
+            if re.search(new_pattern, word):
+                strings.append(word)
     else:
         strings = f.readlines()
     
