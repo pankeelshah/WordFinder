@@ -52,6 +52,8 @@ def index():
             return render_template("index.html", form=form, error="Pattern Length and Length must be equal.")
         elif letters == "" and pattern == "":
             return render_template("index.html", form=form, error="Letters or Pattern must be provided")
+        elif length != "" and letters != "" and int(length) > len(letters):
+            return render_template("index.html", form=form, error="Length cannot be greater than number of letters.")
         return redirect(url_for('letters_2_words'))
     else:
         return render_template("index.html", form=form)
