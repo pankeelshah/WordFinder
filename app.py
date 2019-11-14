@@ -12,11 +12,11 @@ class WordForm(FlaskForm):
     avail_letters = StringField("Letters", validators= [
         Regexp(r'^$|^[a-z]+$', message="must contain letters only")
     ])
+    
     pattern = StringField("Pattern")
     length = StringField("Length", validators= [
         Regexp(r'^$|^(3|4|5|6|7|8|9|10)$', message="must contain only  one number in range 3-10")
     ])
-
 
     submit = SubmitField("Search")
     
@@ -42,9 +42,13 @@ def letters_2_words():
         letters = form.avail_letters.data
         pattern = form.pattern.data
         length = form.length.data
+
+        if length != "" and pattern != "" and len(pattern) != int(length):
+            return redirect(url_for('index'))
+        elif letters == "" and pattern == "":
+            return redirect(url_for('index'))
     else:
-        print("-------------DID NOT VALIDATE------------")
-        return render_template("index.html", form=form)
+        return redirect(url_for('index'))
 
     good_words = set()
     f = open('sowpods.txt')
@@ -55,22 +59,26 @@ def letters_2_words():
     else:
         strings = f.readlines()
     
-    if(length == ""):
+    if length == "":
         length = 0
     else:
         length = int(length)
         length += 1
+
+    if letters == "" and pattern != "" and length != "" and length != 0:
+        length -= 1
+
+    if pattern != "":
+        length = len(pattern)
 
     for x in strings:
         word_length = len(x)
         if(length == 0):
             good_words.add(x.strip().lower())
         elif(length != 0 and length == word_length):
-            print(word_length)
             good_words.add(x.strip().lower())
     f.close()
     word_set = set()
-
     if(letters != ""):
         for l in range(3,len(letters)+1):
             for word in itertools.permutations(letters,l):
@@ -79,7 +87,8 @@ def letters_2_words():
                     word_set.add(w)
     else:
         word_set = list(good_words)
-    #print(word_set)
+    
+    print(word_set)
     word_set = sorted(word_set, reverse=False)
     word_set = sorted(word_set, reverse=False, key=len)
 
