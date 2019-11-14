@@ -8,10 +8,6 @@ import wtforms
 from wtforms.validators import Regexp
 import re
 
-letters = ""
-pattern = ""
-length = 0
-
 class WordForm(FlaskForm):
     avail_letters = StringField("Letters", validators= [
         Regexp(r'^$|^[a-z]+$', message="Must contain only lowercase letters a-z")
@@ -37,11 +33,13 @@ csrf.init_app(app)
 def default():
     return redirect(url_for('index'))
 
-@app.route('/index', methods=['POST','GET'])
+@app.route('/index')
 def index():
-    global letters
-    global pattern
-    global length
+    form = WordForm()
+    return render_template("index.html", form=form)
+
+@app.route('/words', methods=['POST','GET'])
+def letters_2_words():
     form = WordForm()
     if form.validate_on_submit():
         letters = form.avail_letters.data
@@ -54,17 +52,9 @@ def index():
             return render_template("index.html", form=form, error="Letters or Pattern must be provided")
         elif length != "" and letters != "" and int(length) > len(letters):
             return render_template("index.html", form=form, error="Length cannot be greater than number of letters.")
-        return redirect(url_for('letters_2_words'))
     else:
         return render_template("index.html", form=form)
 
-@app.route('/words', methods=['POST','GET'])
-def letters_2_words():
-    global letters
-    global pattern
-    global length
-
-    form = WordForm()
     good_words = set()
     f = open('sowpods.txt')
 
@@ -105,10 +95,6 @@ def letters_2_words():
     
     word_set = sorted(word_set, reverse=False)
     word_set = sorted(word_set, reverse=False, key=len)
-
-    letters = ""
-    pattern = ""
-    length = 0
 
     return render_template('wordlist.html',
         wordlist=word_set,
