@@ -62,7 +62,7 @@ def letters_2_words():
     if(pattern != ""):
         new_pattern = "^" + pattern + "$"
         for line in f.readlines():
-            word = line[:-2]
+            word = line[:-1]
             if re.search(new_pattern, word):
                 strings.append(word)
     else:
