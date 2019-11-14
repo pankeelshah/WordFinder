@@ -8,16 +8,21 @@ import wtforms
 from wtforms.validators import Regexp
 import re
 
+letters = ""
+pattern = ""
+length = 0
+
 class WordForm(FlaskForm):
     avail_letters = StringField("Letters", validators= [
-        Regexp(r'^$|^[a-z]+$', message="must contain letters only")
+        Regexp(r'^$|^[a-z]+$', message="Must contain only lowercase letters a-z")
     ])
     
     pattern = StringField("Pattern", validators= [
-        Regexp(r'^$|^[a-z|.]+$', message="must contain letters only")
+        Regexp(r'^$|^[a-z|.]+$', message="Must contain only lowercase letters a-z or .")
     ])
+
     length = StringField("Length", validators= [
-        Regexp(r'^$|^(3|4|5|6|7|8|9|10)$', message="must contain only  one number in range 3-10")
+        Regexp(r'^$|^(3|4|5|6|7|8|9|10)$', message="Must contain only one number in range 3-10")
     ])
 
     submit = SubmitField("Search")
@@ -32,13 +37,11 @@ csrf.init_app(app)
 def default():
     return redirect(url_for('index'))
 
-@app.route('/index')
+@app.route('/index', methods=['POST','GET'])
 def index():
-    form = WordForm()
-    return render_template("index.html", form=form)
-
-@app.route('/words', methods=['POST','GET'])
-def letters_2_words():
+    global letters
+    global pattern
+    global length
     form = WordForm()
     if form.validate_on_submit():
         letters = form.avail_letters.data
@@ -46,12 +49,20 @@ def letters_2_words():
         length = form.length.data
 
         if length != "" and pattern != "" and len(pattern) != int(length):
-            return redirect(url_for('index'))
+            return render_template("index.html", form=form, error="Pattern Length and Length must be equal.")
         elif letters == "" and pattern == "":
-            return redirect(url_for('index'))
+            return render_template("index.html", form=form, error="Letters or Pattern must be provided")
+        return redirect(url_for('letters_2_words'))
     else:
-        return redirect(url_for('index'))
+        return render_template("index.html", form=form)
 
+@app.route('/words', methods=['POST','GET'])
+def letters_2_words():
+    global letters
+    global pattern
+    global length
+
+    form = WordForm()
     good_words = set()
     f = open('sowpods.txt')
 
@@ -90,7 +101,6 @@ def letters_2_words():
     else:
         word_set = list(good_words)
     
-    print(word_set)
     word_set = sorted(word_set, reverse=False)
     word_set = sorted(word_set, reverse=False, key=len)
 
