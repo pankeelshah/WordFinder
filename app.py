@@ -12,11 +12,9 @@ class WordForm(FlaskForm):
     avail_letters = StringField("Letters", validators= [
         Regexp(r'^$|^[a-z]+$', message="must contain letters only")
     ])
-    pattern = StringField("Pattern", validators= [
-        Regexp(r'^$|^[a-z]+$', message="must contain letters only")
-    ])
+    pattern = StringField("Pattern")
     length = StringField("Length", validators= [
-        Regexp('^$|^(3|4|5|6|7|8|9|10)$', message="must contain only  one number in range 3-10")
+        Regexp(r'^$|^(3|4|5|6|7|8|9|10)$', message="must contain only  one number in range 3-10")
     ])
 
 
@@ -70,14 +68,19 @@ def letters_2_words():
         elif(length != 0 and length == word_length):
             good_words.add(x.strip().lower())
 
+    print(good_words)
     f.close()
     word_set = set()
-    for l in range(3,len(letters)+1):
-        for word in itertools.permutations(letters,l):
-            w = "".join(word)
-            if w in good_words:
-                word_set.add(w)
 
+    if(letters != ""):
+        for l in range(3,len(letters)+1):
+            for word in itertools.permutations(letters,l):
+                w = "".join(word)
+                if w in good_words:
+                    word_set.add(w)
+    else:
+        word_set = list(good_words)
+    print(word_set)
     word_set = sorted(word_set, reverse=False)
     word_set = sorted(word_set, reverse=False, key=len)
 
