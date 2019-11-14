@@ -66,9 +66,8 @@ def letters_2_words():
         if(length == 0):
             good_words.add(x.strip().lower())
         elif(length != 0 and length == word_length):
+            print(word_length)
             good_words.add(x.strip().lower())
-
-    print(good_words)
     f.close()
     word_set = set()
 
@@ -80,7 +79,7 @@ def letters_2_words():
                     word_set.add(w)
     else:
         word_set = list(good_words)
-    print(word_set)
+    #print(word_set)
     word_set = sorted(word_set, reverse=False)
     word_set = sorted(word_set, reverse=False, key=len)
 
