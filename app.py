@@ -5,14 +5,23 @@ from flask_wtf.csrf import CSRFProtect
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 import wtforms
+from wtforms.validators import Regexp
 import re
 
 class WordForm(FlaskForm):
-    avail_letters = StringField("Letters")
-    pattern = StringField("Pattern")
+    avail_letters = StringField("Letters", validators= [
+        Regexp(r'^$|^[a-z]+$', message="must contain letters only")
+    ])
+    pattern = StringField("Pattern", validators= [
+        Regexp(r'^$|^[a-z]+$', message="must contain letters only")
+    ])
+    length = StringField("Length", validators= [
+        Regexp('^$|^(3|4|5|6|7|8|9|10)$', message="must contain only  one number in range 3-10")
+    ])
+
+
     submit = SubmitField("Search")
-    min_length = StringField("Min")
-    max_length = StringField("Max")
+    
 
 csrf = CSRFProtect()
 app = Flask(__name__)
@@ -30,14 +39,13 @@ def index():
 
 @app.route('/words', methods=['POST','GET'])
 def letters_2_words():
-
     form = WordForm()
     if form.validate_on_submit():
         letters = form.avail_letters.data
         pattern = form.pattern.data
-        min_length = form.min_length.data
-        max_length = form.max_length.data
+        length = form.length.data
     else:
+        print("-------------DID NOT VALIDATE------------")
         return render_template("index.html", form=form)
 
     good_words = set()
@@ -49,19 +57,17 @@ def letters_2_words():
     else:
         strings = f.readlines()
     
-    if(min_length == ""):
-        min_length = 3
+    if(length == ""):
+        length = 0
     else:
-        min_length = int(min_length)
-    
-    if(max_length == ""):
-        max_length = 10
-    else:
-        max_length = int(max_length)
+        length = int(length)
+        length += 1
 
     for x in strings:
         word_length = len(x)
-        if(min_length <= word_length and word_length <= max_length):
+        if(length == 0):
+            good_words.add(x.strip().lower())
+        elif(length != 0 and length == word_length):
             good_words.add(x.strip().lower())
 
     f.close()
