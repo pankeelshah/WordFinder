@@ -13,7 +13,9 @@ class WordForm(FlaskForm):
         Regexp(r'^$|^[a-z]+$', message="must contain letters only")
     ])
     
-    pattern = StringField("Pattern")
+    pattern = StringField("Pattern", , validators= [
+        Regexp(r'^$|^[a-z|.]+$', message="must contain letters only")
+    ])
     length = StringField("Length", validators= [
         Regexp(r'^$|^(3|4|5|6|7|8|9|10)$', message="must contain only  one number in range 3-10")
     ])
