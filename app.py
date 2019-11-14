@@ -106,6 +106,10 @@ def letters_2_words():
     word_set = sorted(word_set, reverse=False)
     word_set = sorted(word_set, reverse=False, key=len)
 
+    letters = ""
+    pattern = ""
+    length = 0
+
     return render_template('wordlist.html',
         wordlist=word_set,
         name="CS4131")
