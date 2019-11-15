@@ -2,6 +2,7 @@
 
 {% block content %}
 <main>
+    
     {% for word in wordlist: %}
     <a onclick="getDefinition('{{word}}')" target="_blank">
         <div class="wordbox">
@@ -9,6 +10,8 @@
         </div>
     </a>
     {% endfor %}
+
+    <p>{{ message }}</p>
 
     <div id="myModal" class="modal">
         <div class="modal-content">

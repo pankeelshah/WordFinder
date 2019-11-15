@@ -100,9 +100,13 @@ def letters_2_words():
     word_set = sorted(word_set, reverse=False)
     word_set = sorted(word_set, reverse=False, key=len)
 
+    message = ""
+    if len(word_set) == 0:
+        message = "No matching words found."
+
     return render_template('wordlist.html',
         wordlist=word_set,
-        name="CS4131")
+        name="CS4131", message = message)
 
 @app.route('/proxy/<word>')
 def proxy(word):
